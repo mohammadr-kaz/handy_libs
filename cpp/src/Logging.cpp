@@ -262,6 +262,16 @@ bool io::fileExists (const std::string &name)
   return (stat (name.c_str(), &buffer) == 0); 
 }
 
+void io::appendVecStr2csv(std::string dir, std::string name, std::vector<std::string> inp)
+{
+    std::ofstream file;
+    file.open(dir + "/" + name + ".csv", std::ios::app);
+    for (auto & el: inp)
+        file << el << ',';
+    file << '\n';
+    file.close();
+}
+
 void io::appendVec2csv(std::string dir, std::string name, std::vector<float> inp)
 {
     std::ofstream file;

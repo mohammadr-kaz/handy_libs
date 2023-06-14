@@ -58,6 +58,7 @@ namespace hl::io
 
     bool fileExists (const std::string&);
 
+    void appendVecStr2csv(std::string, std::string, std::vector<std::string>);
     void appendVec2csv(std::string, std::string, std::vector<float>);
 }
 

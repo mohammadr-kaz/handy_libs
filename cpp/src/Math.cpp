@@ -313,3 +313,65 @@ int math::argmax(const std::vector<float> &v)
     }
     return index;
 }
+
+int math::specialArgmax(const std::vector<float> &A, int len)
+{
+    // for (int k =0; k<M; k++)
+    // {
+
+    // }
+    // for(i=0;i<A.size();i++)
+    // {
+    //     if(A[i]>max)
+    //     max=A[i];
+    // }
+    // // int A[]={1,2,3,8,7,5,3,4,6};
+    float max=-1;
+    int max_idx = 0;
+    // int i,j;
+    // int B[4]={0,0,0,0,};//where n=4;
+    // std::vector<float> B{0,0,0,0};
+    std::vector<float> B(len, 0.0);
+    std::vector<int> indices;
+    int n = B.size();
+    for(int i=0;i<A.size();i++)
+    {
+        if(A[i]>max)
+        {
+        max=A[i];
+        max_idx = i;
+        }
+    }
+    B[0]=max;
+    indices.push_back(max_idx);
+    for(int i=1;i<n;i++)
+    {
+        max=0;
+        max_idx = 0;
+        for(int j=0;j<A.size();j++)
+        {
+            if(A[j]>max&&A[j]<B[i-1])
+            {
+            max=A[j];
+            max_idx = j;
+            }
+        }
+        B[i]=max;
+       indices.push_back(max_idx);
+    }
+    // std::cout<<"here:\n";
+    // for (auto & el: B)
+    //     std::cout<<el<<", ";
+    // std::cout<<"\n";
+    // for (auto & el: indices)
+    //     std::cout<<el<<", ";
+    // std::cout<<"\n";
+ 
+    // std::cout<<average1d(indices)<<"\n";
+    
+    // return std::round(average1d(indices));
+    return indices[len/2];
+
+    // std::cout<<B[0]<<"\t"<<B[1]<<"\t"<<B[2]<<"\t"<<B[3]<<<<"\n";
+    // std::cout<<indices[0]<<"\t"<<indices[1]<<"\t"<<indices[2]<<"\t"<<indices[3]<<"\n";
+}
