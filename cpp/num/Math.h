@@ -1,5 +1,5 @@
-#ifndef MIIO2V_MATH_H
-#define MIIO2V_MATH_H
+#ifndef HL_MATH_H
+#define HL_MATH_H
 
 #include <istream>
 #include <random>

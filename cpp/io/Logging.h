@@ -1,5 +1,5 @@
-#ifndef MIIO2V_LOGGING_H
-#define MIIO2V_LOGGING_H
+#ifndef HL_LOGGING_H
+#define HL_LOGGING_H
 
 #include <iostream>
 #include <fstream>

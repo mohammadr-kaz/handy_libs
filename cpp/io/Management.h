@@ -1,5 +1,5 @@
-#ifndef MANAGEMENT_H
-#define MANAGEMENT_H
+#ifndef HL_MANAGEMENT_H
+#define HL_MANAGEMENT_H
 
 #include "iostream"
 #include <memory>
