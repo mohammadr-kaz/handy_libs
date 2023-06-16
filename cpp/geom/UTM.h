@@ -6,14 +6,14 @@
 //
 // *** THIS CODE USES 32-BIT doubleS BY DEFAULT ***
 // *** For 64-bit double-precision edit this file: undefine double_32 and define double_64 (see below)
-// 
+//
 // This is a simple port of the code on the Geographic/UTM Coordinate Converter (1) page from Javascript to C++.
 // Using this you can easily convert between UTM and WGS84 (latitude and longitude).
 // Accuracy seems to be around 50cm (I suspect rounding errors are limiting precision).
 // This code is provided as-is and has been minimally tested; enjoy but use at your own risk!
-// The license for UTM.cpp and UTM.h is the same as the original Javascript: 
+// The license for UTM.cpp and UTM.h is the same as the original Javascript:
 // "The C++ source code in UTM.cpp and UTM.h may be copied and reused without restriction."
-// 
+//
 // 1) http://home.hiwaay.net/~taylorc/toolbox/geography/geoutm.html
 
 #ifndef HL_UTM_H
@@ -22,45 +22,44 @@
 // Choose floating point precision:
 
 // 32-bit (for Teensy 3.5/3.6 ARM boards, etc.)
-//#define double_32
-    // 64-bit (for desktop/server use)
-    #define double_64
+// #define double_32
+// 64-bit (for desktop/server use)
+#define double_64
 
-    #ifdef double_64
-    // #define double double
-    #define SIN sin
-    #define COS cos
-    #define TAN tan
-    #define POW pow
-    #define SQRT sqrt
-    #define FLOOR floor
+#ifdef double_64
+// #define double double
+#define SIN sin
+#define COS cos
+#define TAN tan
+#define POW pow
+#define SQRT sqrt
+#define FLOOR floor
 
-    #else
-    #ifdef double_32
-    // #define double float
-    #define SIN sinf
-    #define COS cosf
-    #define TAN tanf
-    #define POW powf
-    #define SQRT sqrtf
-    #define FLOOR floorf
+#else
+#ifdef double_32
+// #define double float
+#define SIN sinf
+#define COS cosf
+#define TAN tanf
+#define POW powf
+#define SQRT sqrtf
+#define FLOOR floorf
 
-    #endif
-    #endif
+#endif
+#endif
 
+#include <math.h>
 
-    #include <math.h>
+// #define pi 3.14159265358979
 
-    // #define pi 3.14159265358979
+/* Ellipsoid model constants (actual values here are for WGS84) */
+#define sm_a 6378137.0
+#define sm_b 6356752.314
+#define sm_EccSquared 6.69437999013e-03
 
-    /* Ellipsoid model constants (actual values here are for WGS84) */
-    #define sm_a 6378137.0
-    #define sm_b 6356752.314
-    #define sm_EccSquared 6.69437999013e-03
+#define UTMScaleFactor 0.9996
 
-    #define UTMScaleFactor 0.9996
-
-namespace hl::geom 
+namespace hl::geom
 {
 
     // DegToRad
@@ -74,20 +73,20 @@ namespace hl::geom
     // ArcLengthOfMeridian
     // Computes the ellipsoidal distance from the equator to a point at a
     // given latitude.
-    // 
+    //
     // Reference: Hoffmann-Wellenhof, B., Lichtenegger, H., and Collins, J.,
     // GPS: Theory and Practice, 3rd ed.  New York: Springer-Verlag Wien, 1994.
-    // 
+    //
     // Inputs:
     //     phi - Latitude of the point, in radians.
-    // 
+    //
     // Globals:
     //     sm_a - Ellipsoid model major axis.
     //     sm_b - Ellipsoid model minor axis.
-    // 
+    //
     // Returns:
     //     The ellipsoidal distance of the point from the equator, in meters.
-    double ArcLengthOfMeridian (double phi);
+    double ArcLengthOfMeridian(double phi);
 
     // UTMCentralMeridian
     // Determines the central meridian for the given UTM zone.
@@ -134,7 +133,7 @@ namespace hl::geom
     //
     // Returns:
     //    The function does not return a value.
-    void MapLatLonToXY (double phi, double lambda, double lambda0, double &x, double &y);
+    void MapLatLonToXY(double phi, double lambda, double lambda0, double &x, double &y);
 
     // MapXYToLatLon
     // Converts x and y coordinates in the Transverse Mercator projection to
@@ -163,7 +162,7 @@ namespace hl::geom
     //
     //   x1frac, x2frac, x2poly, x3poly, etc. are to enhance readability and
     //   to optimize computations.
-    void MapXYToLatLon (double x, double y, double lambda0, double& phi, double& lambda);
+    void MapXYToLatLon(double x, double y, double lambda0, double &phi, double &lambda);
 
     // LatLonToUTMXY
     // Converts a latitude/longitude pair to x and y coordinates in the
@@ -182,7 +181,7 @@ namespace hl::geom
     //
     // Returns:
     //   The UTM zone used for calculating the values of x and y.
-    int LatLonToUTMXY (double lat, double lon, int zone, double& x, double& y);
+    int LatLonToUTMXY(double lat, double lon, int zone, double &x, double &y);
 
     // UTMXYToLatLon
     //
@@ -200,10 +199,15 @@ namespace hl::geom
     // Outputs:
     // lat - The latitude of the point, in radians.
     // lon - The longitude of the point, in radians.
-    // 
+    //
     // Returns:
     // The function does not return a value.
-    void UTMXYToLatLon (double x, double y, int zone, bool southhemi, double& lat, double& lon);
+    void UTMXYToLatLon(double x, double y, int zone, bool southhemi, double &lat, double &lon);
+
+    // latitude, in degrees.
+    // longitude, in  degrees.
+    int getUTMZone(double latitude, double longitude);
+
 }
 
 #endif
